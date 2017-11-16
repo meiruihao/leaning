@@ -1,0 +1,29 @@
+#default
+server:
+    port: 3333
+spring:
+    profiles:
+        active: dev
+    application:
+    #应用程序名称
+     name: ljldata-client
+#日志
+logging:
+    path: /opt/logs/www/ljlpay_config/
+    config: classpath:logback-spring.xml
+---
+spring:
+  profiles: dev
+
+#eureka 配置
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 1           #定义服务续约任务的调用间隔时间，默认为30秒
+    lease-expiration-duration-in-seconds: 2       #定义服务失效的时间，默认90秒
+    prefer-ip-address: true                          #设置服务实例偏好使用ip地址作为主机名，默认为false
+    hostname: localhost
+  client:
+    heathCheck:                                       #健康检查
+      enabled: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:1111/eureka/    #是设置eureka服务器所在的地址，查询服务和注册服务都需要依赖这个地址

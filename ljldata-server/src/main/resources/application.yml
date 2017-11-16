@@ -1,0 +1,31 @@
+#default
+server:
+    port: 2222
+spring:
+    profiles:
+        active: dev
+    application:
+    #应用程序名称
+     name: ljldata-server
+#日志
+logging:
+    path: /opt/logs/www/ljldata-server/
+    config: classpath:logback-spring.xml
+---
+spring:
+  profiles: dev
+
+#eureka 配置
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 1                            #定义服务续约任务的调用间隔时间，默认为30秒
+    lease-expiration-duration-in-seconds: 2                        #定义服务失效的时间，默认90秒
+    prefer-ip-address: true                                           #设置服务实例偏好使用ip地址作为主机名，默认为false
+    status-page-url: ${management.context-path}/info              #获取此实例状态页的URL路径，然后构造出主机名，安全端口等，默认为/info
+    health-check-url-path: ${management.context-path}/health     #获取此实例绝对状态页的URL路径，为其他服务提供信息时来找到这个实例的状态的路径，默认为null
+    hostname: localhost                                                #与此实例相关联的主机名，是其他实例可以用来进行请求的准确名称
+  client:
+    heathCheck:                                                       #健康检查
+      enabled: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:1111/eureka/  #是设置eureka服务器所在的地址，查询服务和注册服务都需要依赖这个地址

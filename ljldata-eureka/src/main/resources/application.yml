@@ -1,0 +1,30 @@
+#default
+server:
+    port: 1111
+spring:
+    profiles:
+        active: dev
+    application:
+    #应用程序名称
+     name: enreka-server
+#日志
+logging:
+    path: /opt/logs/www/ljlpay_config/
+    config: classpath:logback-spring.xml
+---
+spring:
+  profiles: dev
+#eureka 配置
+eureka:
+  instance:
+    hostname: localhost                            #实例的主机地址
+    lease-renewal-interval-in-seconds: 30     #定义服务续约任务的调用间隔时间，默认为30秒
+  client:
+    register-with-eureka: false          # 设置是否将自己作为客户端注册到注册中心（缺省true）
+    fetch-registry: false                 # 设置是否从注册中心获取注册信息（缺省true）
+    service-url:
+          defaultZone: http://${eureka.instance.hostname}:1111/eureka/   #指定服务注册中心的地址，可以配置多个 逗号隔开
+  server:
+    #关闭自我保护
+    enable-self-preservation: false       # 关闭自我保护模式（缺省为打开）
+    eviction-interval-timer-in-ms: 1000  # 续期时间，即扫描失效服务的间隔时间（缺省为60*1000ms）
